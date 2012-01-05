@@ -1,0 +1,10 @@
+#group_sidebar
+  .group_photo
+    %img{:src => '/images/user/default.png', :width => '100'}
+
+  #group_members
+    %h3 Members
+
+    %ul
+    - group.members.each do |person|
+      = person_image_link(person)
