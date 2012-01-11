@@ -21,11 +21,20 @@ Diaspora::Application.routes.draw do
   end
   get 'p/:id' => 'posts#show', :as => 'short_post'
   get 'public_stream' => 'posts#index', :as => 'public_stream'
+  post 'preview' => 'posts#preview'
+  post 'comment_preview' => 'comments#preview'
   # roll up likes into a nested resource above
   resources :comments, :only => [:create, :destroy] do
     resources :likes, :only => [:create, :destroy, :index]
   end
 
+  resources :groups do
+    resources :members, :controller => 'group_members', :only => [:create, :destroy,]
+    post 'join'
+    post 'approve/:id', :action => 'approve_request', :as => 'approve_membership_request'
+    delete 'reject/:id', :action => 'reject_request', :as => 'reject_membership_request'
+  end
+  get '/g/:identifier' => 'groups#show', :as => 'group_by_identifier'
 
   get 'bookmarklet' => 'status_messages#bookmarklet'
 
@@ -58,6 +67,7 @@ Diaspora::Application.routes.draw do
   get "tag_followings" => "tag_followings#index", :as => 'tag_followings'
   resources :mentions, :only => [:index]
   resources "tag_followings", :only => [:create]
+  resources 'tag_exclusions', :only => [:create, :destroy]
 
   get 'comment_stream' => 'comment_stream#index', :as => 'comment_stream'
 
@@ -83,6 +93,7 @@ Diaspora::Application.routes.draw do
     get 'public/:username'          => :public,           :as => 'users_public'
     match 'getting_started'         => :getting_started,  :as => 'getting_started'
     match 'privacy'                 => :privacy_settings, :as => 'privacy_settings'
+    get 'filters'                   => :filters,          :as => 'filters'
     get 'getting_started_completed' => :getting_started_completed
     get 'confirm_email/:token'      => :confirm_email,    :as => 'confirm_email'
   end
@@ -121,6 +132,7 @@ Diaspora::Application.routes.draw do
   get 'spotlight' => 'community_spotlight#index', :as => 'spotlight'
 
   get 'community_spotlight' => "contacts#spotlight", :as => 'community_spotlight'
+  post '/contacts/import' => 'contacts#import', :as => 'contacts_import'
 
   get 'stream' => "multis#index", :as => 'multi'
 

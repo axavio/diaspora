@@ -28,6 +28,18 @@ class Comment < ActiveRecord::Base
 
 
   scope :including_author, includes(:author => :profile)
+  scope :excluding_ignored, lambda { |ignorer|
+    if ignorer.nil?
+      where('true')
+    else
+      ignored = ignorer.blocks.includes(:person).map{ |ignored| ignored.person.id }
+      if ignored.any?
+        where "author_id NOT IN (?)", ignored
+      else
+        where('true')
+      end
+    end
+  }
 
   before_save do
     self.text.strip! unless self.text.nil?
@@ -42,7 +54,9 @@ class Comment < ActiveRecord::Base
   end
 
   after_destroy do
-    self.parent.update_comments_counter
+    if self.parent
+      self.parent.update_comments_counter
+    end
   end
 
   def diaspora_handle

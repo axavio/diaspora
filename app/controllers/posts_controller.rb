@@ -14,6 +14,8 @@ class PostsController < ApplicationController
              :json,
              :xml
 
+  include MarkdownifyHelper
+
   def show
     key = params[:id].to_s.length <= 8 ? :id : :guid
 
@@ -31,6 +33,8 @@ class PostsController < ApplicationController
         notification.unread = false
         notification.save
       end
+
+      @expand_post = true
 
       respond_to do |format|
         format.xml{ render :xml => @post.to_diaspora_xml }
@@ -68,10 +72,16 @@ class PostsController < ApplicationController
    request.format = :html if request.format == 'application/html+xml'
   end
 
+  def preview
+    render :json => {
+      'result' => markdownify( params['text'], :oembed => true )
+    }
+  end
+
   private
 
   def user_can_not_comment_on_post?
-    if @post.public && @post.author.local?
+    if @post.public
       false
     elsif current_user.contact_for(@post.author)
       false

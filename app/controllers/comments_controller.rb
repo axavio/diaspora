@@ -8,6 +8,7 @@ class CommentsController < ApplicationController
 
   respond_to :html, :mobile, :except => :show
   respond_to :js, :only => [:index]
+  respond_to :json
 
   rescue_from ActiveRecord::RecordNotFound do
     render :nothing => true, :status => 404
@@ -37,6 +38,12 @@ class CommentsController < ApplicationController
       render :nothing => true, :status => 422
     end
   end
+  def preview
+    a_comment = current_user.build_comment(:text => params['text'] )
+    render :json => {
+      'result' => render_to_string( :partial => 'comments/comment_content', :locals => { :comment => a_comment, :can_comment => true } )
+    }
+  end
 
   def destroy
     @comment = Comment.find(params[:id])
@@ -62,7 +69,12 @@ class CommentsController < ApplicationController
     end
 
     if @post
-      @comments = @post.comments.includes(:author => :profile).order('created_at ASC')
+      if user_signed_in?
+        comments_scoped = @post.comments_unignored( current_user )
+      else
+        comments_scoped = @post.comments
+      end
+      @comments = comments_scoped.includes(:author => :profile).order('created_at ASC')
       render :layout => false
     else
       raise ActiveRecord::RecordNotFound.new

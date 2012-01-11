@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111217042006) do
+ActiveRecord::Schema.define(:version => 20111217042007) do
 
   create_table "account_deletions", :force => true do |t|
     t.string  "diaspora_handle"
@@ -107,7 +107,43 @@ ActiveRecord::Schema.define(:version => 20111217042006) do
     t.datetime "updated_at"
   end
 
-  add_index "conversations", ["author_id"], :name => "conversations_author_id_fk"
+  create_table "group_members", :force => true do |t|
+    t.integer  "group_id",                      :null => false
+    t.integer  "person_id",                     :null => false
+    t.boolean  "admin",      :default => false, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "group_members", ["group_id", "person_id"], :name => "index_group_members_on_group_id_and_person_id", :unique => true
+
+  create_table "group_membership_requests", :force => true do |t|
+    t.integer  "group_id",   :null => false
+    t.integer  "person_id",  :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "group_membership_requests", ["group_id", "person_id"], :name => "index_group_membership_requests_on_group_id_and_person_id", :unique => true
+
+  create_table "group_posts", :force => true do |t|
+    t.integer "group_id", :null => false
+    t.integer "post_id",  :null => false
+  end
+
+  add_index "group_posts", ["group_id", "post_id"], :name => "index_group_posts_on_group_id_and_post_id", :unique => true
+
+  create_table "groups", :force => true do |t|
+    t.string   "identifier",                      :null => false
+    t.string   "name",                            :null => false
+    t.text     "description"
+    t.string   "image_url"
+    t.string   "admission",   :default => "open", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "groups", ["identifier"], :name => "index_groups_on_identifier", :unique => true
 
   create_table "invitations", :force => true do |t|
     t.text     "message"
@@ -392,6 +428,24 @@ ActiveRecord::Schema.define(:version => 20111217042006) do
   add_index "share_visibilities", ["shareable_id", "shareable_type", "contact_id"], :name => "shareable_and_contact_id"
   add_index "share_visibilities", ["shareable_id", "shareable_type", "hidden", "contact_id"], :name => "shareable_and_hidden_and_contact_id"
   add_index "share_visibilities", ["shareable_id"], :name => "index_post_visibilities_on_post_id"
+
+  create_table "short_url_expansions", :force => true do |t|
+    t.string   "url_short"
+    t.string   "url_expanded", :limit => 1024
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tag_exclusions", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "tag_id",     :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tag_exclusions", ["tag_id", "user_id"], :name => "index_tag_exclusions_on_tag_id_and_user_id", :unique => true
+  add_index "tag_exclusions", ["tag_id"], :name => "index_tag_exclusions_on_tag_id"
+  add_index "tag_exclusions", ["user_id"], :name => "index_tag_exclusions_on_user_id"
 
   create_table "tag_followings", :force => true do |t|
     t.integer  "tag_id",     :null => false

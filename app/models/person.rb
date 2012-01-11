@@ -28,6 +28,8 @@ class Person < ActiveRecord::Base
   has_many :posts, :foreign_key => :author_id, :dependent => :destroy # This person's own posts
   has_many :photos, :foreign_key => :author_id, :dependent => :destroy # This person's own photos
   has_many :comments, :foreign_key => :author_id, :dependent => :destroy # This person's own comments
+  has_many :group_members
+  has_many :groups, :through => :group_members
 
   belongs_to :owner, :class_name => 'User'
 
@@ -274,7 +276,7 @@ class Person < ActiveRecord::Base
   def self.url_batch_update(people, url)
     people.each do |person|
       person.update_url(url)
-    end 
+    end
   end
 
   # @param person [Person]
@@ -295,6 +297,14 @@ class Person < ActiveRecord::Base
   def clear_profile!
     self.profile.tombstone!
     self
+  end
+
+  def member_of?(group)
+    !! GroupMember.find_by_group_id_and_person_id( group.id, self.id )
+  end
+
+  def admin_of?(group)
+    !! GroupMember.find_by_group_id_and_person_id_and_admin( group.id, self.id, true )
   end
 
   protected

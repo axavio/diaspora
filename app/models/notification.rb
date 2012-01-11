@@ -15,21 +15,19 @@ class Notification < ActiveRecord::Base
   def self.notify(recipient, target, actor)
     if target.respond_to? :notification_type
       if note_type = target.notification_type(recipient, actor)
-        if(target.is_a? Comment) || (target.is_a? Like) 
+        if(target.is_a? Comment) || (target.is_a? Like)
           n = note_type.concatenate_or_create(recipient, target.parent, actor, note_type)
         elsif(target.is_a? Reshare)
           n = note_type.concatenate_or_create(recipient, target.root, actor, note_type)
         else
           n = note_type.make_notification(recipient, target, actor, note_type)
         end
+
         if n
           n.email_the_user(target, actor)
-          Diaspora::Websocket.to(recipient, :actor => actor).socket(n)
           n
-        else
-          nil
         end
-       end
+      end
     end
   end
 

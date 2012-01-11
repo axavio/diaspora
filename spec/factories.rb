@@ -208,4 +208,8 @@ end
 Factory.define(:mention) do |c|
   c.association(:person, :factory => :person)
   c.association(:post, :factory => :status_message)
+
+Factory.define(:short_url_expansion, :class => ShortUrlExpansion) do |x|
+  x.sequence(:url_short) { |n| "http://bit.ly/#{n}" }
+  x.sequence(:url_expanded) { |n| "http://example.com/resource/#{n}" }
 end

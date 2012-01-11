@@ -36,7 +36,7 @@ defaults: &defaults
 
 
   # URL for a remote redis, on the default port. Don't forget to restrict IP access!
-  # leave it empty for the default (localhost)
+  # leave it empty for the default (redis://localhost:6379)
   redis_url: ''
 
   # Amazon S3 for photos
@@ -67,6 +67,14 @@ defaults: &defaults
   # activity in their stream and get news about Diaspora, but if you don't want your server
   # to contact joindiaspora.com, set this to true:
   no_follow_diasporahq: false
+
+  # The URLs of pods where public messages of this pod will also be sent.
+  # This helps increase inter-pod public engagement.  Aspect-limited messages
+  # are not affected by this setting.
+  # The strings MUST match what is found in the people.url column.  In other
+  # words, don't forget the "https://" part, and the trailing slash.
+  public_federation_destinations:
+    # - 'https://joindiaspora.com/'
 
   # Community Spotlight
   # (expressed as an array of Diaspora IDs)
@@ -145,7 +153,7 @@ defaults: &defaults
 
   # The path to the sendmail binary. Ignored if mailer_method is not set to sendmail
   sendmail_location: '/usr/sbin/sendmail'
-  
+
   # Set this to true if you want to use exim and sendmail
   sendmail_exim_fix: false
 
@@ -192,9 +200,8 @@ defaults: &defaults
   # Leave this blank to use the same Redis database
   # that your Resque workers use (happy path).
   #
-  # This takes an ip (or DNS record).  It assumes that your Redis database
-  # is running on the default Redis port.
-  redis_location: ''
+  # If blank it defaults to redis_url. Format: redis://host:port
+  redis_cache_url: ''
 
 
   # Web tracking
@@ -217,7 +224,7 @@ defaults: &defaults
   cloudfiles_images_container: 'Image Backup'
 
   # Donations
-  
+
   # Leave this blank to not show the request for donations
   # Use paypal for recurring donations
   paypal_hosted_button_id: ""
