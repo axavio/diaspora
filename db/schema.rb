@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111217042007) do
+ActiveRecord::Schema.define(:version => 20120101225928) do
 
   create_table "account_deletions", :force => true do |t|
     t.string  "diaspora_handle"
@@ -106,6 +106,8 @@ ActiveRecord::Schema.define(:version => 20111217042007) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "conversations", ["author_id"], :name => "conversations_author_id_fk"
 
   create_table "group_members", :force => true do |t|
     t.integer  "group_id",                      :null => false
