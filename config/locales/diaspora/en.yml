@@ -160,10 +160,10 @@ en:
     index:
       donate: "Donate"
       keep_us_running: "Keep %{pod} running fast and buy servers their coffee fix with a monthly donation!"
-      your_aspects: "View messages from:"
+      your_aspects: "Your Aspects"
       no_tags: "+ Find a tag to follow"
       unfollow_tag: "Stop following #%{tag}"
-      handle_explanation: "This is your diaspora id. Like an email address, you can give this to people to reach you."
+      handle_explanation: "This is your diaspora ID. Like an email address, you can give this to people to reach you."
       no_contacts: "No contacts"
       post_a_message: "post a message >>"
       people_sharing_with_you: "People sharing with you"
@@ -1001,8 +1001,8 @@ en:
       contacts_title: "Recent Posters"
 
     multi:
-      title: "Messages Posted"
-      contacts_title: "People who have posted"
+      title: "Stream"
+      contacts_title: "People in your Stream"
 
     aspects:
       title: "Your Aspects"
