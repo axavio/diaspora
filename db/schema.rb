@@ -524,8 +524,13 @@ ActiveRecord::Schema.define(:version => 20120128073438) do
     t.string   "confirm_email_token",                :limit => 30
     t.datetime "locked_at"
     t.boolean  "show_community_spotlight_in_stream",                :default => true,  :null => false
+<<<<<<< HEAD
     t.boolean  "auto_follow_back",                                  :default => false
     t.integer  "auto_follow_back_aspect_id"
+=======
+    t.text     "custom_css"
+    t.text     "custom_js"
+>>>>>>> Users can now provide custom CSS and Javascript for themselves.
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
