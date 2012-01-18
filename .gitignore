@@ -44,6 +44,8 @@ public/source.tar*
 tmp/**/*
 tmp/*
 *.sqlite3
+public/index.html
+public/local/
 
 # Temporary files of every sort
 .sass-cache/*

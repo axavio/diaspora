@@ -44,10 +44,18 @@
             = f.label :remember_me, t('devise.sessions.new.remember_me')
         = f.submit t('devise.sessions.new.sign_in'), :tabindex => 4
 
+     %p
+        %br
+        %br
+        Welcome to the Calispora pod!
+        %br
+        Be sure to follow the <b>#calispora</b>
+        hashtag for important pod info!
+        %br
+        %br
+        Have a great day!
 
       - if display_registration_link?
-        %br
-        %br
         %br
         %br
         = link_to t('devise.shared.links.sign_up'), new_registration_path(resource_name)

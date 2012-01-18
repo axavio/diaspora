@@ -112,12 +112,11 @@
     %footer
       .container
         %ul#footer_nav
+          %li= link_to '@calispora', "http://twitter.com/calispora"
           %li= link_to '@joindiaspora', "http://twitter.com/joindiaspora"
-          %li= link_to 'github', "https://github.com/diaspora/diaspora"
-          %li= link_to t('layouts.header.blog'), "http://blog.joindiaspora.com"
-          %li= link_to t('layouts.header.code'), "#{root_url.chomp('/')}/source.tar.gz" unless request.url.match(/joindiaspora.com/)
-          %li= link_to t('.whats_new'), 'https://github.com/diaspora/diaspora/wiki/Changelog'
-          %li= link_to(t('layouts.application.toggle'), toggle_mobile_path)  if is_mobile_device?
+          %li= link_to 'wiki', 'http:/github.com/axavio/diaspora/wiki'
+          %li= link_to t('privacy_policy'), 'https://calispora.org/local/privacy-policy.html'
+          %li= link_to t('terms_and_conditions'), 'https://calispora.org/local/tos.html'
         = image_tag 'powered_by_diaspora.png', :height => "11px", :width => "145px"
 
     -if !@landing_page && request.url.match(/joindiaspora.com/)
