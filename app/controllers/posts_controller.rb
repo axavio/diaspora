@@ -88,8 +88,8 @@ class PostsController < ApplicationController
       @posts = []
       @comments = []
     else
-      @posts = current_user.posts.where('text ILIKE ?', "%#{q}%").order('created_at desc').limit(30)
-      @comments = current_user.comments.where('text ILIKE ?', "%#{q}%").order('created_at desc').limit(30)
+      @posts = current_user.posts.where('LOWER(text) LIKE LOWER(?)', "%#{q}%").order('created_at desc').limit(30)
+      @comments = current_user.comments.where('LOWER(text) LIKE LOWER(?)', "%#{q}%").order('created_at desc').limit(30)
     end
   end
 
