@@ -44,9 +44,15 @@
             = f.label :remember_me, t('devise.sessions.new.remember_me')
         = f.submit t('devise.sessions.new.sign_in'), :tabindex => 4
 
+      %p
+        %br
+        New and returning users: Be sure to 
+        follow <a href="/tags/calispora"><strong>#calispora</strong></a> 
+        for pod news
+        %br
+        %br
 
       - if display_registration_link?
-        %br
         %br
         %br
         %br
