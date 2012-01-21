@@ -46,16 +46,14 @@
 
       %p
         %br
-        %br
-        Welcome to the Calispora pod!
-        %br
-        Be sure to follow the <b>#calispora</b>
-        hashtag for important pod info!
+        New and returning users: Be sure to 
+        follow <a href="/tags/calispora"><strong>#calispora</strong></a> 
+        for pod news
         %br
         %br
-        Have a great day!
 
       - if display_registration_link?
+        %br
         %br
         %br
         = link_to t('devise.shared.links.sign_up'), new_registration_path(resource_name)
