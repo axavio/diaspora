@@ -3,6 +3,19 @@
 -#   the COPYRIGHT file.
 
 
+.section
+  .title
+    = image_tag('/images/icons/coffee.png')
+    %h5
+      = "Popular Tags"
+  .content
+    = link_to('#photography','/tags/photography')
+    = link_to('#diaspora','/tags/diaspora')
+    = link_to('#photo','/tags/photo')
+    = link_to('#art','/tags/art')
+    = link_to('#music','/tags/music')
+    = link_to('#funny','/tags/funny')
+
 - if AppConfig[:open_invitations]
   .section
     .title

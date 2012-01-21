@@ -6,8 +6,12 @@
 
 .span-24.last
   %h1
-    = "Users per week (Current server date is: #{Time.now.to_date}) "
+    = "New Users Per Week"
+    
+  %h2
+    = "(Current server date is: #{Time.now.to_date}) "
+  
   %ul
     - @created_users_by_week.keys.sort.each do |k|
       %li
-        = "Week stating on #{k} , #{@created_users_by_week[k]}"
+        = "Users Created During Week Starting on #{k} , #{@created_users_by_week[k]}"
