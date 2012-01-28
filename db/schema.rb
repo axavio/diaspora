@@ -10,7 +10,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120110061231) do
+ActiveRecord::Schema.define(:version => 20120128073438) do
+
+  create_table "account_deletions", :force => true do |t|
+    t.string  "diaspora_handle"
+    t.integer "person_id"
+  end
 
   create_table "account_deletions", :force => true do |t|
     t.string  "diaspora_handle"
@@ -529,6 +534,34 @@ ActiveRecord::Schema.define(:version => 20120110061231) do
   add_index "users", ["invitation_token"], :name => "index_users_on_invitation_token"
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token", :unique => true
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
+
+  create_table "v__post_comment_taggings_tags_authors", :id => false, :force => true do |t|
+    t.integer  "tag_id",                  :default => 0, :null => false
+    t.string   "tag_name"
+    t.datetime "created_at"
+    t.integer  "author_id",  :limit => 8
+  end
+
+  create_table "v__tags_trending", :id => false, :force => true do |t|
+    t.integer  "id",                               :default => 0, :null => false
+    t.string   "name"
+    t.integer  "count",               :limit => 8, :default => 0, :null => false
+    t.datetime "most_recent_tagging"
+  end
+
+  create_table "v__tags_trending_new", :id => false, :force => true do |t|
+    t.integer  "count",               :limit => 8, :default => 0, :null => false
+    t.integer  "id",                               :default => 0, :null => false
+    t.string   "name"
+    t.datetime "most_recent_tagging"
+  end
+
+  create_table "v__tags_trending_previous", :id => false, :force => true do |t|
+    t.integer  "id",                               :default => 0, :null => false
+    t.string   "name"
+    t.integer  "count",               :limit => 8, :default => 0, :null => false
+    t.datetime "most_recent_tagging"
+  end
 
   add_foreign_key "aspect_memberships", "aspects", :name => "aspect_memberships_aspect_id_fk", :dependent => :delete
   add_foreign_key "aspect_memberships", "contacts", :name => "aspect_memberships_contact_id_fk", :dependent => :delete

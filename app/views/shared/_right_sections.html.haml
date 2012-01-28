@@ -20,6 +20,23 @@
     = link_to('#commit','/tags/commit')
     = link_to('#random','/tags/random')
 
+  .title
+    %h5
+      = "Trending Today"
+  .content
+    .ul
+      - ActsAsTaggableOn::Tag.trending.each do |tag|
+        .li
+          = link_to "##{tag}", tag_path(:name => tag.name)
+  .title
+    %h5
+      = "New Trends"
+  .content
+    .ul
+      - ActsAsTaggableOn::Tag.trending_new.each do |tag|
+        .li
+          = link_to "##{tag}", tag_path(:name => tag.name)
+
 - if AppConfig[:open_invitations]
   .section
     .title
