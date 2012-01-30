@@ -10,17 +10,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120128073438) do
-
-  create_table "account_deletions", :force => true do |t|
-    t.string  "diaspora_handle"
-    t.integer "person_id"
-  end
-
-  create_table "account_deletions", :force => true do |t|
-    t.string  "diaspora_handle"
-    t.integer "person_id"
-  end
+ActiveRecord::Schema.define(:version => 20120130205050) do
+photos were not showing on local posts.
 
   create_table "aspect_memberships", :force => true do |t|
     t.integer  "aspect_id",  :null => false
