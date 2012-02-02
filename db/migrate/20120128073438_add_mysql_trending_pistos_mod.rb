@@ -3,7 +3,7 @@ class AddMysqlTrendingPistosMod < ActiveRecord::Migration
     return  if postgres?
 
     execute %{
-      CREATE VIEW v__post_comment_taggings_tags_authors AS
+      CREATE OR REPLACE VIEW v__post_comment_taggings_tags_authors AS
           SELECT
                 t.id AS tag_id
               , t.name AS tag_name
@@ -18,6 +18,7 @@ class AddMysqlTrendingPistosMod < ActiveRecord::Migration
           WHERE
               tgs.tag_id = t.id
               AND tgs.taggable_type IN ( 'Post', 'Comment' )
+              AND created_at > DATE_SUB(NOW(), INTERVAL 48 HOUR)
       ;
     }
 
@@ -75,7 +76,7 @@ class AddMysqlTrendingPistosMod < ActiveRecord::Migration
   end
 
   def self.down
-    return  if ! postgres?
+    return if postgres?
 
     execute "DROP VIEW v__post_comment_taggings_tags_authors;"
     execute "DROP VIEW v__tags_trending;"
