@@ -10,8 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120130205050) do
-photos were not showing on local posts.
+ActiveRecord::Schema.define(:version => 20120203185339) do
 
   create_table "aspect_memberships", :force => true do |t|
     t.integer  "aspect_id",  :null => false
@@ -521,7 +520,11 @@ photos were not showing on local posts.
 =======
     t.text     "custom_css"
     t.text     "custom_js"
+<<<<<<< HEAD
 >>>>>>> Users can now provide custom CSS and Javascript for themselves.
+=======
+    t.string   "token_api",                          :limit => 32
+>>>>>>> Beginnings of a pseudo API.
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
@@ -529,6 +532,7 @@ photos were not showing on local posts.
   add_index "users", ["invitation_service", "invitation_identifier"], :name => "index_users_on_invitation_service_and_invitation_identifier", :unique => true
   add_index "users", ["invitation_token"], :name => "index_users_on_invitation_token"
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token", :unique => true
+  add_index "users", ["token_api"], :name => "index_users_on_token_api", :unique => true
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
   create_table "v__post_comment_taggings_tags_authors", :id => false, :force => true do |t|
