@@ -514,25 +514,21 @@ ActiveRecord::Schema.define(:version => 20120203185339) do
     t.string   "confirm_email_token",                :limit => 30
     t.datetime "locked_at"
     t.boolean  "show_community_spotlight_in_stream",                :default => true,  :null => false
-<<<<<<< HEAD
     t.boolean  "auto_follow_back",                                  :default => false
     t.integer  "auto_follow_back_aspect_id"
-=======
     t.text     "custom_css"
     t.text     "custom_js"
-<<<<<<< HEAD
->>>>>>> Users can now provide custom CSS and Javascript for themselves.
-=======
     t.string   "token_api",                          :limit => 32
->>>>>>> Beginnings of a pseudo API.
+    t.string   "api_token",                          :limit => 32
+    t.datetime "api_time_last"
   end
 
+  add_index "users", ["api_token"], :name => "index_users_on_api_token", :unique => true
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["invitation_service", "invitation_identifier"], :name => "index_users_on_invitation_service_and_invitation_identifier", :unique => true
   add_index "users", ["invitation_token"], :name => "index_users_on_invitation_token"
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token", :unique => true
-  add_index "users", ["token_api"], :name => "index_users_on_token_api", :unique => true
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
   create_table "v__post_comment_taggings_tags_authors", :id => false, :force => true do |t|
