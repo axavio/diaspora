@@ -153,9 +153,7 @@ Diaspora::Application.routes.draw do
   get '/u/:username' => 'people#show', :as => 'user_profile'
   get '/u/:username/profile_photo' => 'users#user_photo'
 
-  resources :chat_messages do
-  end
-  get '/chat-make' => 'chat_messages#make'
+  resources :chat_messages
 
   # Federation
 
