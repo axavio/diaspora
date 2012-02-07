@@ -520,4 +520,8 @@ class User < ActiveRecord::Base
   def notifications
     Notification.where( 'recipient_id = ?', self.id )
   end
+
+  def chat_messages_unread
+    ChatMessage.where(:recipient_id => self.person.id, :read => false)
+  end
 end
