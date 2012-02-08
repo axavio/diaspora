@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120207021140) do
+ActiveRecord::Schema.define(:version => 20120208195040) do
 
   create_table "aspect_memberships", :force => true do |t|
     t.integer  "aspect_id",  :null => false
@@ -531,6 +531,7 @@ ActiveRecord::Schema.define(:version => 20120207021140) do
     t.string   "api_token",                          :limit => 32
     t.datetime "api_time_last"
     t.boolean  "chat_with_anyone",                                  :default => false, :null => false
+    t.string   "chat_status",                                       :default => "offline", :null => false
   end
 
   add_index "users", ["api_token"], :name => "index_users_on_api_token", :unique => true

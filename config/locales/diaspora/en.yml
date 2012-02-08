@@ -222,6 +222,13 @@ en:
     explanation: "Post to Diaspora from anywhere by bookmarking %{link}."
     explanation_link_text: "this link"
 
+  chat:
+    status:
+      offline: 'Offline'
+      away: 'Away'
+      dnd: 'Do Not Disturb'
+      online: 'Online'
+
   comments:
     zero: "no comments"
     one: "1 comment"
@@ -437,6 +444,7 @@ en:
       view_all: "View all"
       recent_notifications: "Recent notifications"
       unread_notifications: "Unread notifications"
+      status: 'Your status'
     application:
       powered_by: "POWERED BY DIASPORA*"
       whats_new: "what's new?"
