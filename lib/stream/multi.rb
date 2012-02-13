@@ -137,11 +137,8 @@ class Stream::Multi < Stream::Base
   end
 
   def ids(query)
-    Post.connection.select_values(
-      query.
-      for_a_stream(max_time, order).
-      select('posts.id').
-      where(
+    if postgres?
+      where_str =
         %{
           COALESCE(
             (
@@ -155,7 +152,30 @@ class Stream::Multi < Stream::Base
             TRUE
           )
         }
-      ).
+    else # MySQL
+      where_str =
+        %{
+          COALESCE(
+            (
+              SELECT NOT sv.hidden
+              FROM share_visibilities sv
+              WHERE
+                sv.shareable_type = 'Post'
+                AND sv.shareable_id = posts.id
+                AND sv.contact_id 
+                  IN (SELECT id from contacts where user_id = 'XXXX')
+              LIMIT 1
+            ),
+            TRUE
+          )
+        }
+      where_str.gsub!("XXXX",self.user.id.to_s)
+    end 
+    Post.connection.select_values(
+      query.
+      for_a_stream(max_time, order).
+      select('posts.id').
+      where(where_str).
       to_sql
     )
   end
