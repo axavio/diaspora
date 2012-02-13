@@ -241,17 +241,17 @@ ActiveRecord::Schema.define(:version => 20120209044818) do
   add_index "o_embed_caches", ["url"], :name => "index_o_embed_caches_on_url", :length => {"url"=>255}
 
   create_table "oauth_access_tokens", :force => true do |t|
-    t.integer  "authorization_id",                :null => false
-    t.string   "access_token",     :limit => 127, :null => false
-    t.string   "refresh_token",    :limit => 127
+    t.integer  "authorization_id",               :null => false
+    t.string   "access_token",     :limit => 32, :null => false
+    t.string   "refresh_token",    :limit => 32
     t.datetime "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "oauth_authorization_codes", :force => true do |t|
-    t.integer  "authorization_id",                :null => false
-    t.string   "code",             :limit => 127, :null => false
+    t.integer  "authorization_id",               :null => false
+    t.string   "code",             :limit => 32, :null => false
     t.datetime "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -273,12 +273,11 @@ ActiveRecord::Schema.define(:version => 20120209044818) do
     t.text   "description",                         :null => false
     t.string "application_base_url", :limit => 127, :null => false
     t.string "icon_url",             :limit => 127, :null => false
-    t.string "oauth_identifier",     :limit => 127, :null => false
-    t.string "oauth_secret",         :limit => 127, :null => false
-    t.string "nonce",                :limit => 127
+    t.string "oauth_identifier",     :limit => 32,  :null => false
+    t.string "oauth_secret",         :limit => 32,  :null => false
+    t.string "nonce",                :limit => 64
     t.text   "public_key",                          :null => false
     t.text   "permissions_overview",                :null => false
-    t.string "oauth_redirect_uri"
   end
 
   add_index "oauth_clients", ["application_base_url"], :name => "index_oauth_clients_on_application_base_url", :unique => true
@@ -286,14 +285,13 @@ ActiveRecord::Schema.define(:version => 20120209044818) do
   add_index "oauth_clients", ["nonce"], :name => "index_oauth_clients_on_nonce", :unique => true
 
   create_table "people", :force => true do |t|
-    t.string   "guid",                                     :null => false
-    t.text     "url",                                      :null => false
-    t.string   "diaspora_handle",                          :null => false
-    t.text     "serialized_public_key",                    :null => false
+    t.string   "guid",                  :null => false
+    t.text     "url",                   :null => false
+    t.string   "diaspora_handle",       :null => false
+    t.text     "serialized_public_key", :null => false
     t.integer  "owner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "closed_account",        :default => false
   end
 
   add_index "people", ["diaspora_handle"], :name => "index_people_on_diaspora_handle", :unique => true
@@ -357,7 +355,6 @@ ActiveRecord::Schema.define(:version => 20120209044818) do
     t.integer  "comments_count",                      :default => 0
     t.integer  "o_embed_cache_id"
     t.integer  "reshares_count",                      :default => 0
-    t.integer  "photos_count",                        :default => 0
     t.boolean  "pod_only",                            :default => false, :null => false
   end
 
@@ -496,11 +493,11 @@ ActiveRecord::Schema.define(:version => 20120209044818) do
   create_table "users", :force => true do |t|
     t.string   "username"
     t.text     "serialized_private_key"
-    t.boolean  "getting_started",                                   :default => true,  :null => false
-    t.boolean  "disable_mail",                                      :default => false, :null => false
+    t.boolean  "getting_started",                                   :default => true,             :null => false
+    t.boolean  "disable_mail",                                      :default => false,            :null => false
     t.string   "language"
-    t.string   "email",                                             :default => "",    :null => false
-    t.string   "encrypted_password",                 :limit => 128, :default => "",    :null => false
+    t.string   "email",                                             :default => "",               :null => false
+    t.string   "encrypted_password",                 :limit => 128, :default => "",               :null => false
     t.string   "invitation_token",                   :limit => 60
     t.datetime "invitation_sent_at"
     t.string   "reset_password_token"
@@ -522,16 +519,13 @@ ActiveRecord::Schema.define(:version => 20120209044818) do
     t.string   "unconfirmed_email"
     t.string   "confirm_email_token",                :limit => 30
     t.datetime "locked_at"
-    t.boolean  "show_community_spotlight_in_stream",                :default => true,  :null => false
-    t.boolean  "auto_follow_back",                                  :default => false
-    t.integer  "auto_follow_back_aspect_id"
+    t.boolean  "show_community_spotlight_in_stream",                :default => true,             :null => false
     t.text     "custom_css"
     t.text     "custom_js"
-    t.string   "token_api",                          :limit => 32
     t.string   "api_token",                          :limit => 32
     t.datetime "api_time_last"
-    t.boolean  "chat_with_anyone",                                  :default => false, :null => false
-    t.string   "chat_status",                                       :default => "offline", :null => false
+    t.boolean  "chat_with_anyone",                                  :default => false,            :null => false
+    t.string   "chat_status",                                       :default => "offline",        :null => false
     t.string   "time_zone",                                         :default => "Canada/Eastern", :null => false
   end
 
