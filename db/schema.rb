@@ -519,13 +519,17 @@ ActiveRecord::Schema.define(:version => 20120209044818) do
     t.string   "unconfirmed_email"
     t.string   "confirm_email_token",                :limit => 30
     t.datetime "locked_at"
+<<<<<<< HEAD
     t.boolean  "show_community_spotlight_in_stream",                :default => true,             :null => false
+=======
+    t.boolean  "show_community_spotlight_in_stream",                :default => true,  :null => false
+>>>>>>> stable
     t.text     "custom_css"
     t.text     "custom_js"
     t.string   "api_token",                          :limit => 32
     t.datetime "api_time_last"
-    t.boolean  "chat_with_anyone",                                  :default => false,            :null => false
-    t.string   "chat_status",                                       :default => "offline",        :null => false
+    t.boolean  "chat_with_anyone",                                  :default => false, :null => false
+    t.string   "chat_status",                                       :default => "offline", :null => false
     t.string   "time_zone",                                         :default => "Canada/Eastern", :null => false
   end
 
