@@ -6,7 +6,7 @@
 
 .span-24.last
   %h2
-    = "Current server date is: #{Time.now.to_date}) "
+    = "Current server date is: #{Time.now.to_date} "
 
 = form_tag('/admins/weekly_user_stats', :method => 'get') do
   = select_tag(:week, options_for_select(@created_users_by_week.keys))
