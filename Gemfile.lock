@@ -301,7 +301,7 @@ GEM
     parallel (0.5.9)
     parallel_tests (0.6.11)
       parallel
-    pg (0.12.0)
+    pg (0.13.1)
       rake-compiler (~> 0.7)
     polyglot (0.3.3)
     rack (1.2.4)
