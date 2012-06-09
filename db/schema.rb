@@ -12,6 +12,11 @@
 
 ActiveRecord::Schema.define(:version => 20120226191603) do
 
+  create_table "account_deletions", :force => true do |t|
+    t.string  "diaspora_handle"
+    t.integer "person_id"
+  end
+
   create_table "aspect_memberships", :force => true do |t|
     t.integer  "aspect_id",  :null => false
     t.integer  "contact_id", :null => false
@@ -111,6 +116,8 @@ ActiveRecord::Schema.define(:version => 20120226191603) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "conversations", ["author_id"], :name => "conversations_author_id_fk"
 
   create_table "group_members", :force => true do |t|
     t.integer  "group_id",                      :null => false
@@ -237,20 +244,20 @@ ActiveRecord::Schema.define(:version => 20120226191603) do
     t.text   "data",                 :null => false
   end
 
-  add_index "o_embed_caches", ["url"], :name => "index_o_embed_caches_on_url", :length => {"url"=>255}
+  add_index "o_embed_caches", ["url"], :name => "index_o_embed_caches_on_url"
 
   create_table "oauth_access_tokens", :force => true do |t|
-    t.integer  "authorization_id",               :null => false
-    t.string   "access_token",     :limit => 32, :null => false
-    t.string   "refresh_token",    :limit => 32
+    t.integer  "authorization_id",                :null => false
+    t.string   "access_token",     :limit => 127, :null => false
+    t.string   "refresh_token",    :limit => 127
     t.datetime "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "oauth_authorization_codes", :force => true do |t|
-    t.integer  "authorization_id",               :null => false
-    t.string   "code",             :limit => 32, :null => false
+    t.integer  "authorization_id",                :null => false
+    t.string   "code",             :limit => 127, :null => false
     t.datetime "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -272,11 +279,12 @@ ActiveRecord::Schema.define(:version => 20120226191603) do
     t.text   "description",                         :null => false
     t.string "application_base_url", :limit => 127, :null => false
     t.string "icon_url",             :limit => 127, :null => false
-    t.string "oauth_identifier",     :limit => 32,  :null => false
-    t.string "oauth_secret",         :limit => 32,  :null => false
-    t.string "nonce",                :limit => 64
+    t.string "oauth_identifier",     :limit => 127, :null => false
+    t.string "oauth_secret",         :limit => 127, :null => false
+    t.string "nonce",                :limit => 127
     t.text   "public_key",                          :null => false
     t.text   "permissions_overview",                :null => false
+    t.string "oauth_redirect_uri"
   end
 
   add_index "oauth_clients", ["application_base_url"], :name => "index_oauth_clients_on_application_base_url", :unique => true
@@ -284,13 +292,14 @@ ActiveRecord::Schema.define(:version => 20120226191603) do
   add_index "oauth_clients", ["nonce"], :name => "index_oauth_clients_on_nonce", :unique => true
 
   create_table "people", :force => true do |t|
-    t.string   "guid",                  :null => false
-    t.text     "url",                   :null => false
-    t.string   "diaspora_handle",       :null => false
-    t.text     "serialized_public_key", :null => false
+    t.string   "guid",                                     :null => false
+    t.text     "url",                                      :null => false
+    t.string   "diaspora_handle",                          :null => false
+    t.text     "serialized_public_key",                    :null => false
     t.integer  "owner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "closed_account",        :default => false
   end
 
   add_index "people", ["diaspora_handle"], :name => "index_people_on_diaspora_handle", :unique => true
@@ -355,6 +364,7 @@ ActiveRecord::Schema.define(:version => 20120226191603) do
     t.integer  "o_embed_cache_id"
     t.integer  "reshares_count",                      :default => 0
     t.boolean  "pod_only",                            :default => false, :null => false
+    t.integer  "photos_count",                        :default => 0
   end
 
   add_index "posts", ["author_id", "root_guid"], :name => "index_posts_on_author_id_and_root_guid", :unique => true
@@ -492,11 +502,11 @@ ActiveRecord::Schema.define(:version => 20120226191603) do
   create_table "users", :force => true do |t|
     t.string   "username"
     t.text     "serialized_private_key"
-    t.boolean  "getting_started",                                   :default => true,  :null => false
-    t.boolean  "disable_mail",                                      :default => false, :null => false
+    t.boolean  "getting_started",                                   :default => true,             :null => false
+    t.boolean  "disable_mail",                                      :default => false,            :null => false
     t.string   "language"
-    t.string   "email",                                             :default => "",    :null => false
-    t.string   "encrypted_password",                 :limit => 128, :default => "",    :null => false
+    t.string   "email",                                             :default => "",               :null => false
+    t.string   "encrypted_password",                 :limit => 128, :default => "",               :null => false
     t.string   "invitation_token",                   :limit => 60
     t.datetime "invitation_sent_at"
     t.string   "reset_password_token"
@@ -518,13 +528,13 @@ ActiveRecord::Schema.define(:version => 20120226191603) do
     t.string   "unconfirmed_email"
     t.string   "confirm_email_token",                :limit => 30
     t.datetime "locked_at"
-    t.boolean  "show_community_spotlight_in_stream",                :default => true,  :null => false
+    t.boolean  "show_community_spotlight_in_stream",                :default => true,             :null => false
     t.text     "custom_css"
     t.text     "custom_js"
     t.string   "api_token",                          :limit => 32
     t.datetime "api_time_last"
-    t.boolean  "chat_with_anyone",                                  :default => false, :null => false
-    t.string   "chat_status",                                       :default => "offline", :null => false
+    t.boolean  "chat_with_anyone",                                  :default => false,            :null => false
+    t.string   "chat_status",                                       :default => "offline",        :null => false
     t.string   "time_zone",                                         :default => "Canada/Eastern", :null => false
   end
 
@@ -536,36 +546,64 @@ ActiveRecord::Schema.define(:version => 20120226191603) do
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token", :unique => true
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
-  add_foreign_key "aspect_memberships", "aspects", :name => "aspect_memberships_aspect_id_fk", :dependent => :delete
-  add_foreign_key "aspect_memberships", "contacts", :name => "aspect_memberships_contact_id_fk", :dependent => :delete
+  create_table "v__post_comment_taggings_tags_authors", :id => false, :force => true do |t|
+    t.integer  "tag_id",                  :default => 0, :null => false
+    t.string   "tag_name"
+    t.datetime "created_at"
+    t.integer  "author_id",  :limit => 8
+  end
 
-  add_foreign_key "aspect_visibilities", "aspects", :name => "aspect_visibilities_aspect_id_fk", :dependent => :delete
+  create_table "v__tags_trending", :id => false, :force => true do |t|
+    t.integer  "id",                               :default => 0, :null => false
+    t.string   "name"
+    t.integer  "count",               :limit => 8, :default => 0, :null => false
+    t.datetime "most_recent_tagging"
+  end
 
-  add_foreign_key "comments", "people", :name => "comments_author_id_fk", :column => "author_id", :dependent => :delete
+  create_table "v__tags_trending_new", :id => false, :force => true do |t|
+    t.integer  "count",               :limit => 8, :default => 0, :null => false
+    t.integer  "id",                               :default => 0, :null => false
+    t.string   "name"
+    t.datetime "most_recent_tagging"
+  end
 
-  add_foreign_key "contacts", "people", :name => "contacts_person_id_fk", :dependent => :delete
+  create_table "v__tags_trending_previous", :id => false, :force => true do |t|
+    t.integer  "id",                               :default => 0, :null => false
+    t.string   "name"
+    t.integer  "count",               :limit => 8, :default => 0, :null => false
+    t.datetime "most_recent_tagging"
+  end
 
-  add_foreign_key "conversation_visibilities", "conversations", :name => "conversation_visibilities_conversation_id_fk", :dependent => :delete
-  add_foreign_key "conversation_visibilities", "people", :name => "conversation_visibilities_person_id_fk", :dependent => :delete
+  add_foreign_key "aspect_memberships", "aspects", :name => "aspect_memberships_aspect_id_fkey", :dependent => :delete
+  add_foreign_key "aspect_memberships", "contacts", :name => "aspect_memberships_contact_id_fkey", :dependent => :delete
 
-  add_foreign_key "conversations", "people", :name => "conversations_author_id_fk", :column => "author_id", :dependent => :delete
+  add_foreign_key "aspect_visibilities", "aspects", :name => "aspect_visibilities_aspect_id_fkey", :dependent => :delete
 
-  add_foreign_key "invitations", "users", :name => "invitations_recipient_id_fk", :column => "recipient_id", :dependent => :delete
-  add_foreign_key "invitations", "users", :name => "invitations_sender_id_fk", :column => "sender_id", :dependent => :delete
+  add_foreign_key "comments", "people", :name => "comments_author_id_fkey", :column => "author_id", :dependent => :delete
 
-  add_foreign_key "likes", "people", :name => "likes_author_id_fk", :column => "author_id", :dependent => :delete
+  add_foreign_key "contacts", "people", :name => "contacts_person_id_fkey", :dependent => :delete
 
-  add_foreign_key "messages", "conversations", :name => "messages_conversation_id_fk", :dependent => :delete
-  add_foreign_key "messages", "people", :name => "messages_author_id_fk", :column => "author_id", :dependent => :delete
+  add_foreign_key "conversation_visibilities", "conversations", :name => "conversation_visibilities_conversation_id_fkey", :dependent => :delete
+  add_foreign_key "conversation_visibilities", "people", :name => "conversation_visibilities_person_id_fkey", :dependent => :delete
 
-  add_foreign_key "notification_actors", "notifications", :name => "notification_actors_notification_id_fk", :dependent => :delete
+  add_foreign_key "conversations", "people", :name => "conversations_author_id_fkey", :column => "author_id", :dependent => :delete
 
-  add_foreign_key "posts", "people", :name => "posts_author_id_fk", :column => "author_id", :dependent => :delete
+  add_foreign_key "invitations", "users", :name => "invitations_recipient_id_fkey", :column => "recipient_id", :dependent => :delete
+  add_foreign_key "invitations", "users", :name => "invitations_sender_id_fkey", :column => "sender_id", :dependent => :delete
 
-  add_foreign_key "profiles", "people", :name => "profiles_person_id_fk", :dependent => :delete
+  add_foreign_key "likes", "people", :name => "likes_author_id_fkey", :column => "author_id", :dependent => :delete
 
-  add_foreign_key "services", "users", :name => "services_user_id_fk", :dependent => :delete
+  add_foreign_key "messages", "conversations", :name => "messages_conversation_id_fkey", :dependent => :delete
+  add_foreign_key "messages", "people", :name => "messages_author_id_fkey", :column => "author_id", :dependent => :delete
 
-  add_foreign_key "share_visibilities", "contacts", :name => "post_visibilities_contact_id_fk", :dependent => :delete
+  add_foreign_key "notification_actors", "notifications", :name => "notification_actors_notification_id_fkey", :dependent => :delete
+
+  add_foreign_key "posts", "people", :name => "posts_author_id_fkey", :column => "author_id", :dependent => :delete
+
+  add_foreign_key "profiles", "people", :name => "profiles_person_id_fkey", :dependent => :delete
+
+  add_foreign_key "services", "users", :name => "services_user_id_fkey", :dependent => :delete
+
+  add_foreign_key "share_visibilities", "contacts", :name => "share_visibilities_contact_id_fkey", :dependent => :delete
 
 end
