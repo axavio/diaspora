@@ -39,7 +39,7 @@ class AdminsController < ApplicationController
   end
 
   def stats
-    @popular_tags = ActsAsTaggableOn::Tagging.joins(:tag).limit(15).count(:group => :tag, :order => 'count(taggings.id) DESC')
+    @popular_tags = ActsAsTaggableOn::Tagging.joins(:tag).limit(50).count(:group => :tag, :order => 'count(taggings.id) DESC')
 
     case params[:range]
     when "week"
