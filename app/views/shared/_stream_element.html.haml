@@ -93,6 +93,10 @@
           ·
 
           = link_to t('comments.new_comment.comment'), '#', :class => 'focus_comment_textarea'
+        
+          - if post.public?
+            &ndash;
+            = link_to("View on Home Pod","http://" + post.diaspora_handle.split('@')[1] + "/p/" + post.guid)
 
       .likes.on_post
         .likes_container

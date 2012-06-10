@@ -2,6 +2,22 @@
 -#   licensed under the Affero General Public License version 3 or later.  See
 -#   the COPYRIGHT file.
 
+.section
+  .title
+    = image_tag('/images/icons/coffee.png')
+    %h5
+      = "Browse Popular Tags"
+  .content
+    = link_to('#diaspora','/tags/diaspora')
+    = link_to('#photo','/tags/photo')
+    = link_to('#art','/tags/art')
+    = link_to('#music','/tags/music')
+    = link_to('#photography','/tags/photography')
+    = link_to('#funny','/tags/funny')
+    = link_to('#occupy','/tags/occupy')
+    = link_to('#gif','/tags/gif')
+    = link_to('#politics','/tags/politics')
+    = link_to('#freedom','/tags/freedom')
 
 - if AppConfig[:open_invitations]
   .section
