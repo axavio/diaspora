@@ -18,7 +18,7 @@ module StreamElementHelper
   end
 
   def nsfw_shield(post)
-    if post.respond_to?(:nsfw?) && post.nsfw?
+    if post.respond_to?(:nsfw?) && post.nsfw? && !current_user.nsfw_shield_disabled
       content_tag(:div, :class => 'shield') do
         I18n.translate('shared.stream_element.nsfw', :link => link_to(I18n.translate('shared.stream_element.show'), '#')).html_safe
       end

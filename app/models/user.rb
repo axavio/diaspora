@@ -70,6 +70,7 @@ class User < ActiveRecord::Base
                   :custom_css,
                   :custom_js,
                   :chat_with_anyone,
+                  :nsfw_shield_disabled,
                   :time_zone
 
 

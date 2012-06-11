@@ -116,6 +116,25 @@
   %br
   %hr
   %br
+
+  %h3#disable_nsfw_shield
+    = t('.disable_nsfw_shield')
+  = form_for current_user, :url => user_path, :html => { :method => :put } do |f|
+    = f.error_messages
+
+    %p
+      = t('.nsfw_shield_explanation')
+    %p.checkbox_select
+      = f.label :nsfw_shield_disabled, t('.disable_nsfw_shield')
+      = f.check_box :nsfw_shield_disabled
+
+    %br
+    = f.submit t('.change'), :class => 'button'
+
+  %br
+  %br
+  %hr
+  %br
   %h3
     = t('.receive_email_notifications')
   = form_for 'user', :url => user_path, :html => { :method => :put } do |f|
