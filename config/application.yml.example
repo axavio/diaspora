@@ -79,6 +79,16 @@ defaults: &defaults
   admins:
     - 'example_user1dsioaioedfhgoiesajdigtoearogjaidofgjo'
 
+
+  # Login page announcements.  Messages are randomly selected and display
+  # as "tips" on the sign-in page.   One message per array element. 
+  login_announcements:
+    #- 'PUBLIC posts are PUBLIC (i.e. the whole internet). They can and will be indexed by search engines. Choose aspects or pod-only to keep posts reasonably private.'
+    #- 'Follow the #calispora tag to keep up with pod news.'
+    #- 'Follow us on twitter @calispora'
+    #- 'This is NOT the main Diaspora* pod, but all are welcome.  Enjoy the alternative experience at Calispora!'
+
+
   # Mount resque-web into routes
   # This allows an administrator to see info about the workers
   mount_resque_web: true

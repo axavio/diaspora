@@ -45,6 +45,11 @@
         = f.submit t('devise.sessions.new.sign_in'), :tabindex => 4
 
 
+      - if AppConfig[:login_announcements]
+        %p#login_announcements
+          Tip: 
+          = AppConfig[:login_announcements].sample
+
       - if display_registration_link?
         %br
         %br
