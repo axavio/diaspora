@@ -61,7 +61,7 @@ class Person < ActiveRecord::Base
          select("DISTINCT people.*")
   }
 
-  scope :profile_tagged_with, lambda{|tag_name| joins(:profile => :tags).where(:profile => {:tags => {:name => tag_name}}).where('profiles.searchable IS TRUE') }
+  scope :profile_tagged_with, lambda{|tag_name| joins(:profile => :tags).where(:tags => {:name => tag_name}).where('profiles.searchable IS TRUE') }
 
   def self.community_spotlight
     AppConfig[:community_spotlight].present? ? Person.where(:diaspora_handle => AppConfig[:community_spotlight]) : []
