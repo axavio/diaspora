@@ -917,6 +917,7 @@ en:
       shared_with: "Shared with: %{aspect_names}"
       nsfw: "This post has been flagged as NSFW by its author. %{link}"
       show: "show"
+      _nsfw_tip: "You can completely disable this NSFW filter on your Settings page"
     footer:
       logged_in_as: "logged in as %{name}"
       your_aspects: "your aspects"
