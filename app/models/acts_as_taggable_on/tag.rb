@@ -20,4 +20,38 @@ class ActsAsTaggableOn::Tag
       name.gsub(/[^#{self.tag_text_regexp}]/, '').downcase
     end
   end
+
+  def self.trending
+#    return []  if ! AppConfig[:trends]
+
+    find_by_sql %{
+      SELECT
+          id
+        , name
+      FROM
+          tags_trending
+      ORDER BY
+          count DESC
+        , most_recent_tagging DESC
+      LIMIT 5
+    }
+  end
+
+  def self.trending_new
+#    return []  if ! AppConfig[:trends]
+
+    find_by_sql %{
+      SELECT
+          id
+        , name
+      FROM
+          tags_trending_new
+      WHERE
+        count > 2
+      ORDER BY
+          count DESC
+        , most_recent_tagging DESC
+      LIMIT 5
+    }
+  end
 end

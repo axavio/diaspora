@@ -48,6 +48,8 @@ en:
   welcome: "Welcome!"
   preview: "Preview"
   edit: "Edit"
+  trends: "Popular Today"
+  trends_new:  "New Trends"
   #for reference translation, the real activerecord english transations are actually
   #in en-US, en-GB, and en-AU yml files
   activerecord:
