@@ -28,14 +28,15 @@
         .li
           = link_to "##{tag}", tag_path(:name => tag.name)
 
-  .title
-    %h5
-      = t('trends_new')
-  .content
-    .ul
-      - ActsAsTaggableOn::Tag.trending_new.each do |tag|
-        .li
-          = link_to "##{tag}", tag_path(:name => tag.name)
+  - if ! ActsAsTaggableOn::Tag.trending_new.empty?
+    .title
+      %h5
+        = t('trends_new')
+    .content
+      .ul
+        - ActsAsTaggableOn::Tag.trending_new.each do |tag|
+          .li
+            = link_to "##{tag}", tag_path(:name => tag.name)
 
 - if AppConfig[:open_invitations]
   .section
