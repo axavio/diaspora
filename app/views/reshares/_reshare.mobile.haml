@@ -1,4 +1,4 @@
--#   Copyright (c) 2010-2011, Diaspora Inc.  This file is
+-#   Copyright (c) 2010-2012, Diaspora Inc.  This file is
 -#   licensed under the Affero General Public License version 3 or later.  See
 -#   the COPYRIGHT file.
 
@@ -10,7 +10,11 @@
       = render 'shared/post_info', :post => post
 
       - if !post.activity_streams?
-        = render 'status_messages/status_message', :post => post, :photos => post.photos
+        - if post.respond_to?(:photos)
+          = render 'status_messages/status_message', :post => post, :photos => post.photos
+        - else
+          = render 'status_messages/status_message', :post => post, :photos => []
+
   - else
     = t('.deleted')
 
