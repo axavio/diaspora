@@ -48,6 +48,11 @@ class Reshare < Post
   def hint
     root.hint
   end
+  
+  def nsfw?
+    self.root.nsfw?
+  end
+
 
   private
 
