@@ -189,7 +189,7 @@
       = t('.export_data')
     = link_to t('.download_xml'), export_user_path, :class => "button"
     %br
-    = link_to t('.download_photos'), "#", :class => "button", :id => "photo-export-button", :title => t('.photo_export_unavailable')
+    = link_to t('.download_photos'), export_photos_user_path, :class => "button", :id => "photo-export-button"
 
   .span-5.last
     %h3
