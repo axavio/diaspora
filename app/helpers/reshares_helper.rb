@@ -20,7 +20,7 @@ module ResharesHelper
     if reshare?(post)
       return unless post.root
       link_to t("reshares.reshare.reshare_original"),
-        reshares_path(:root_guid => post.root.guid),
+        reshares_path(:root_guid => post.absolute_root.guid),
         :method => :post,
         :remote => true,
         :confirm => t('reshares.reshare.reshare_confirmation', :author => post.root.author.name)

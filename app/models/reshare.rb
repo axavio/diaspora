@@ -53,6 +53,14 @@ class Reshare < Post
     self.root.nsfw?
   end
 
+  def absolute_root
+    current = self
+    while( current.is_a?(Reshare) )
+      current = current.root
+    end
+
+    current
+  end
 
   private
 
