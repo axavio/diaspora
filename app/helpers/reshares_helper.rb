@@ -23,7 +23,7 @@ module ResharesHelper
         reshares_path(:root_guid => post.absolute_root.guid),
         :method => :post,
         :remote => true,
-        :confirm => t('reshares.reshare.reshare_confirmation', :author => post.root.author.name)
+        :confirm => t('reshares.reshare.reshare_confirmation', :author => post.absolute_root.author.name)
     else
       link_to t('shared.reshare.reshare'),
                 reshares_path(:root_guid => post.guid),
