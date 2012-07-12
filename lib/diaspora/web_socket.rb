@@ -5,7 +5,9 @@
 module Diaspora
   module WebSocket
 
-    REDIS_CONNECTION_SET = 'ws-uids'
+    if ! defined?(REDIS_CONNECTION_SET)
+      REDIS_CONNECTION_SET = 'ws-uids'
+    end
 
     def self.redis
       @redis ||= Resque.redis
