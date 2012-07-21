@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -365,7 +364,6 @@ ActiveRecord::Schema.define(:version => 20120628191430) do
     t.integer  "o_embed_cache_id"
     t.integer  "reshares_count",                      :default => 0
     t.boolean  "pod_only",                            :default => false, :null => false
-    t.integer  "photos_count",                        :default => 0
   end
 
   add_index "posts", ["author_id", "root_guid"], :name => "index_posts_on_author_id_and_root_guid", :unique => true
@@ -439,9 +437,11 @@ ActiveRecord::Schema.define(:version => 20120628191430) do
   end
 
   add_index "share_visibilities", ["contact_id"], :name => "index_post_visibilities_on_contact_id"
+  add_index "share_visibilities", ["hidden"], :name => "index_share_visibilities_on_hidden"
   add_index "share_visibilities", ["shareable_id", "shareable_type", "contact_id"], :name => "shareable_and_contact_id"
   add_index "share_visibilities", ["shareable_id", "shareable_type", "hidden", "contact_id"], :name => "shareable_and_hidden_and_contact_id"
   add_index "share_visibilities", ["shareable_id"], :name => "index_post_visibilities_on_post_id"
+  add_index "share_visibilities", ["shareable_type"], :name => "index_share_visibilities_on_shareable_type"
 
   create_table "short_url_expansions", :force => true do |t|
     t.string   "url_short"
@@ -544,6 +544,8 @@ ActiveRecord::Schema.define(:version => 20120628191430) do
     t.string   "confirm_email_token",                :limit => 30
     t.datetime "locked_at"
     t.boolean  "show_community_spotlight_in_stream",                :default => true,             :null => false
+    t.boolean  "auto_follow_back",                                  :default => false
+    t.integer  "auto_follow_back_aspect_id"
     t.text     "custom_css"
     t.text     "custom_js"
     t.string   "api_token",                          :limit => 32
