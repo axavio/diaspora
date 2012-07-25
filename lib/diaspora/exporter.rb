@@ -94,7 +94,9 @@ module Diaspora
                 post.comments.each do |comment|
                   xml.parent << comment.to_xml
                 end
-                xml.parent << post.to_xml
+                if post.to_xml.to_s.index('<reshare>').nil?
+                  xml.parent << post.to_xml
+                end
               end
             }
 
@@ -133,9 +135,10 @@ module Diaspora
         end
 
         # remove posts I have reshared
-        doc.xpath('/export/posts/reshare').each do |node|
-          node.remove
-        end
+        # this is redundant since we filtered reshares above
+        #doc.xpath('/export/posts/reshare').each do |node|
+        #  node.remove
+        #end
 
         # remove author_signatures on comments
         doc.xpath('/export/comments/comment/author_signature').each do |node|
