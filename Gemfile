@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.14'
+gem 'rails', '3.0.16'
 
 gem 'bundler', '>= 1.0.0'
 gem 'foreman'
@@ -134,7 +134,7 @@ group :test do
   gem 'rspec-core', '2.6.0'
   gem 'rspec-instafail', '>= 0.1.7', :require => false
   gem 'rspec-rails', '>= 2.0.0'
-  gem 'selenium-webdriver', '~> 2.14.0'
+  gem 'selenium-webdriver', '~> 2.25.0'
   gem 'webmock', :require => false
   gem 'sqlite3'
   gem 'mock_redis'
