@@ -94,7 +94,8 @@ module Diaspora
                 post.comments.each do |comment|
                   xml.parent << comment.to_xml
                 end
-                if post.to_xml.to_s.index('<reshare>').nil?
+                if ! post.instance_of?(Reshare)
+                #if post.to_xml.to_s.index('<reshare>').nil?
                   xml.parent << post.to_xml
                 end
               end

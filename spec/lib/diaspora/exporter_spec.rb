@@ -72,13 +72,13 @@ describe Diaspora::Exporter do
       people_xml.should include @user3.person.guid
     end
 
-    it 'includes their profile' do
-      people_xml.should include @user3.person.profile.first_name
-      people_xml.should include @user3.person.profile.last_name
+    it 'does not include their profile' do
+      people_xml.should_not include @user3.person.profile.first_name
+      people_xml.should_not include @user3.person.profile.last_name
     end
 
-    it 'includes their public key' do
-      people_xml.should include @user3.person.exported_key
+    it 'does not include their public key' do
+      people_xml.should_not include @user3.person.exported_key
     end
 
     it 'includes their diaspora handle' do
