@@ -50,7 +50,11 @@ class Reshare < Post
   end
   
   def nsfw?
-    self.root.nsfw?
+    if self.absolute_root.respond_to?('nsfw?')
+      return self.absolute_root.nsfw?
+    else
+      return false
+    end
   end
 
   def absolute_root
