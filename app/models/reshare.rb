@@ -46,7 +46,12 @@ class Reshare < Post
   end
 
   def hint
-    root.hint
+    #root.hint
+    if self.absolute_root.respond_to?('hint')
+      return self.absolute_root.hint
+    else
+      return nil
+    end
   end
   
   def nsfw?
